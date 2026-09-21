@@ -508,23 +508,38 @@ with st.expander("6. Hive Tips", expanded=False):
 
 with st.expander("7. Mecanismos", expanded=False):
 
-    mechanisms = st.multiselect(
-        "Mecanismos del robot",
-        [
-            "Chassis",
-            "Intake",
-            "Feeder",
-            "Shooter",
-            "Otro"
-        ],
-        key="mechanisms"
+    st.markdown("### Mecanismos del robot")
+
+    chassis = st.checkbox(
+        "Chassis",
+        key="mechanism_chassis"
     )
 
-    if "Otro" in mechanisms:
+    intake = st.checkbox(
+        "Intake",
+        key="mechanism_intake"
+    )
+
+    feeder = st.checkbox(
+        "Feeder",
+        key="mechanism_feeder"
+    )
+
+    shooter = st.checkbox(
+        "Shooter",
+        key="mechanism_shooter"
+    )
+
+    other = st.checkbox(
+        "Otro",
+        key="mechanism_other"
+    )
+
+    if other:
         other_mechanism = st.text_input(
-            "Escribe el otro mecanismo",
-            placeholder="Ej. Turret",
-            key="other_mechanism"
+            "¿Qué otro mecanismo tiene?",
+            placeholder="Escribe el mecanismo",
+            key="mechanism_other_text"
         )
     else:
         other_mechanism = ""
@@ -917,15 +932,25 @@ if st.button(
         st.error("Ingresa un número de equipo.")
         st.stop()
 
-    mechanisms_final = list(mechanisms)
+    # Crear lista de mecanismos
+    mechanisms_final = []
 
-    if "Otro" in mechanisms_final:
-        mechanisms_final.remove("Otro")
+    if chassis:
+        mechanisms_final.append("Chassis")
 
-        if other_mechanism.strip():
-            mechanisms_final.append(
-                f"Otro: {other_mechanism.strip()}"
-            )
+    if intake:
+        mechanisms_final.append("Intake")
+
+    if feeder:
+        mechanisms_final.append("Feeder")
+
+    if shooter:
+        mechanisms_final.append("Shooter")
+
+    if other and other_mechanism.strip():
+        mechanisms_final.append(
+            f"Otro: {other_mechanism.strip()}"
+        )
 
     row = [
         team_number,
