@@ -97,19 +97,23 @@ team_number = st.number_input(
     "Número de equipo",
     min_value=1,
     max_value=99999,
-    step=1
+    step=1,
+    key="team_number"
 )
 
 team_name = st.text_input(
-    "Nombre del equipo"
+    "Nombre del equipo",
+    key="team_name"
 )
 
 robot_name = st.text_input(
-    "Nombre del robot"
+    "Nombre del robot",
+    key="robot_name"
 )
 
 scouter = st.text_input(
-    "Scout"
+    "Scout",
+    key="scouter"
 )
 
 
@@ -126,14 +130,16 @@ with st.expander("1. Drivetrain", expanded=False):
             "Tank",
             "X-Drive",
             "Otro"
-        ]
+        ],
+        key="drivetrain"
     )
 
     drive_motors = st.number_input(
         "Número de motores",
         min_value=0,
         max_value=8,
-        value=4
+        value=4,
+        key="drive_motors"
     )
 
     motor_type = st.selectbox(
@@ -143,47 +149,55 @@ with st.expander("1. Drivetrain", expanded=False):
             "REV Core Hex",
             "Otro",
             "No sé"
-        ]
+        ],
+        key="motor_type"
     )
 
     drive_speed = st.slider(
         "Velocidad",
         1,
         5,
-        3
+        3,
+        key="drive_speed"
     )
 
     acceleration = st.slider(
         "Aceleración",
         1,
         5,
-        3
+        3,
+        key="acceleration"
     )
 
     maneuverability = st.slider(
         "Maniobrabilidad",
         1,
         5,
-        3
+        3,
+        key="maneuverability"
     )
 
     lateral_movement = st.checkbox(
-        "Movimiento lateral"
+        "Movimiento lateral",
+        key="lateral_movement"
     )
 
     rotation = st.checkbox(
-        "Puede girar sobre su propio eje"
+        "Puede girar sobre su propio eje",
+        key="rotation"
     )
 
     odometry = st.checkbox(
-        "Usa odometría"
+        "Usa odometría",
+        key="odometry"
     )
 
     defense_resistance = st.slider(
         "Resistencia ante defensa",
         1,
         5,
-        3
+        3,
+        key="defense_resistance"
     )
 
 
@@ -194,7 +208,8 @@ with st.expander("1. Drivetrain", expanded=False):
 with st.expander("2. AUTO", expanded=False):
 
     has_auto = st.checkbox(
-        "Tiene autónomo"
+        "Tiene autónomo",
+        key="has_auto"
     )
 
     auto_actions = st.multiselect(
@@ -210,14 +225,16 @@ with st.expander("2. AUTO", expanded=False):
             "Pollen en Garden",
             "Nectar en Garden",
             "Park"
-        ]
+        ],
+        key="auto_actions"
     )
 
     auto_routes = st.number_input(
         "Número de rutas de AUTO",
         min_value=0,
         max_value=10,
-        value=0
+        value=0,
+        key="auto_routes"
     )
 
     auto_time = st.selectbox(
@@ -228,26 +245,31 @@ with st.expander("2. AUTO", expanded=False):
             "5–10 s",
             "10–15 s",
             "15+ s"
-        ]
+        ],
+        key="auto_time"
     )
 
     auto_consistency = st.slider(
         "Consistencia del AUTO",
         1,
         5,
-        3
+        3,
+        key="auto_consistency"
     )
 
     auto_vision = st.checkbox(
-        "Usa visión en AUTO"
+        "Usa visión en AUTO",
+        key="auto_vision"
     )
 
     auto_apriltags = st.checkbox(
-        "Usa AprilTags en AUTO"
+        "Usa AprilTags en AUTO",
+        key="auto_apriltags"
     )
 
     auto_odometry = st.checkbox(
-        "Usa odometría en AUTO"
+        "Usa odometría en AUTO",
+        key="auto_odometry"
     )
 
 
@@ -268,14 +290,16 @@ with st.expander("3. Scoring", expanded=False):
             "Bottom Nectar Bonus",
             "Pollen en Garden",
             "Nectar en Garden"
-        ]
+        ],
+        key="scoring_capabilities"
     )
 
     scoring_speed = st.slider(
         "Velocidad de scoring",
         1,
         5,
-        3
+        3,
+        key="scoring_speed"
     )
 
     cycle_time = st.selectbox(
@@ -287,22 +311,26 @@ with st.expander("3. Scoring", expanded=False):
             "3–4 s",
             "4–5 s",
             "5+ s"
-        ]
+        ],
+        key="cycle_time"
     )
 
     can_score_moving = st.checkbox(
-        "Puede hacer scoring mientras se mueve"
+        "Puede hacer scoring mientras se mueve",
+        key="can_score_moving"
     )
 
     can_switch_elements = st.checkbox(
-        "Puede cambiar rápidamente entre elementos"
+        "Puede cambiar rápidamente entre elementos",
+        key="can_switch_elements"
     )
 
     scoring_consistency = st.slider(
         "Consistencia del scoring",
         1,
         5,
-        3
+        3,
+        key="scoring_consistency"
     )
 
 
@@ -313,7 +341,8 @@ with st.expander("3. Scoring", expanded=False):
 with st.expander("4. Intake", expanded=False):
 
     has_intake = st.checkbox(
-        "Tiene intake"
+        "Tiene intake",
+        key="has_intake"
     )
 
     intake_elements = st.multiselect(
@@ -322,22 +351,26 @@ with st.expander("4. Intake", expanded=False):
             "Pollen",
             "Nectar",
             "Ambos"
-        ]
+        ],
+        key="intake_elements"
     )
 
     intake_from_floor = st.checkbox(
-        "Puede recoger desde el suelo"
+        "Puede recoger desde el suelo",
+        key="intake_from_floor"
     )
 
     intake_while_moving = st.checkbox(
-        "Puede recoger mientras se mueve"
+        "Puede recoger mientras se mueve",
+        key="intake_while_moving"
     )
 
     intake_speed = st.slider(
         "Velocidad del intake",
         1,
         5,
-        3
+        3,
+        key="intake_speed"
     )
 
     intake_jams = st.selectbox(
@@ -347,14 +380,16 @@ with st.expander("4. Intake", expanded=False):
             "Raramente",
             "A veces",
             "Frecuentemente"
-        ]
+        ],
+        key="intake_jams"
     )
 
     intake_consistency = st.slider(
         "Consistencia del intake",
         1,
         5,
-        3
+        3,
+        key="intake_consistency"
     )
 
 
@@ -372,14 +407,16 @@ with st.expander("5. Elementos de juego", expanded=False):
             "Pollen",
             "Nectar",
             "Ambos"
-        ]
+        ],
+        key="cell_capabilities"
     )
 
     cell_capacity = st.number_input(
         "Capacidad aproximada en Cell",
         min_value=0,
         max_value=20,
-        value=1
+        value=1,
+        key="cell_capacity"
     )
 
     st.markdown("### Flowers")
@@ -390,11 +427,13 @@ with st.expander("5. Elementos de juego", expanded=False):
             "Pollen",
             "Nectar",
             "Ambos"
-        ]
+        ],
+        key="flower_capabilities"
     )
 
     bottom_bonus = st.checkbox(
-        "Puede hacer Bottom Nectar Bonus"
+        "Puede hacer Bottom Nectar Bonus",
+        key="bottom_bonus"
     )
 
     st.markdown("### Garden")
@@ -405,14 +444,16 @@ with st.expander("5. Elementos de juego", expanded=False):
             "Pollen",
             "Nectar",
             "Ambos"
-        ]
+        ],
+        key="garden_capabilities"
     )
 
     garden_capacity = st.number_input(
         "Capacidad aproximada en Garden",
         min_value=0,
         max_value=20,
-        value=1
+        value=1,
+        key="garden_capacity"
     )
 
 
@@ -423,7 +464,8 @@ with st.expander("5. Elementos de juego", expanded=False):
 with st.expander("6. Hive Tips", expanded=False):
 
     hive_tips = st.checkbox(
-        "Puede hacer Hive Tips"
+        "Puede hacer Hive Tips",
+        key="hive_tips"
     )
 
     hive_method = st.selectbox(
@@ -434,25 +476,29 @@ with st.expander("6. Hive Tips", expanded=False):
             "Drivetrain",
             "Otro",
             "No sé"
-        ]
+        ],
+        key="hive_method"
     )
 
     hive_speed = st.slider(
         "Velocidad de Hive Tips",
         1,
         5,
-        3
+        3,
+        key="hive_speed"
     )
 
     hive_multiple = st.checkbox(
-        "Puede hacer varios Hive Tips rápidamente"
+        "Puede hacer varios Hive Tips rápidamente",
+        key="hive_multiple"
     )
 
     hive_consistency = st.slider(
-        "Consistencia",
+        "Consistencia de Hive Tips",
         1,
         5,
-        3
+        3,
+        key="hive_consistency"
     )
 
 
@@ -470,14 +516,16 @@ with st.expander("7. Mecanismos", expanded=False):
             "Feeder",
             "Shooter",
             "Otro"
-        ]
+        ],
+        key="mechanisms"
     )
 
     other_mechanism = ""
 
     if "Otro" in mechanisms:
         other_mechanism = st.text_input(
-            "¿Qué otro mecanismo tiene?"
+            "¿Qué otro mecanismo tiene?",
+            key="other_mechanism"
         )
 
     sensors = st.multiselect(
@@ -492,7 +540,8 @@ with st.expander("7. Mecanismos", expanded=False):
             "AprilTags",
             "Limelight",
             "Otro"
-        ]
+        ],
+        key="sensors"
     )
 
 
@@ -503,7 +552,8 @@ with st.expander("7. Mecanismos", expanded=False):
 with st.expander("8. End Game", expanded=False):
 
     endgame_park = st.checkbox(
-        "Puede hacer Park"
+        "Puede hacer Park",
+        key="endgame_park"
     )
 
     endgame_mechanisms = st.multiselect(
@@ -514,7 +564,8 @@ with st.expander("8. End Game", expanded=False):
             "Extensión",
             "Arm",
             "Otro"
-        ]
+        ],
+        key="endgame_mechanisms"
     )
 
     endgame_time = st.selectbox(
@@ -525,14 +576,16 @@ with st.expander("8. End Game", expanded=False):
             "10–15 s",
             "5–10 s",
             "Menos de 5 s"
-        ]
+        ],
+        key="endgame_time"
     )
 
     endgame_consistency = st.slider(
-        "Consistencia",
+        "Consistencia del End Game",
         1,
         5,
-        3
+        3,
+        key="endgame_consistency"
     )
 
 
@@ -543,22 +596,26 @@ with st.expander("8. End Game", expanded=False):
 with st.expander("9. Defensa", expanded=False):
 
     can_defend = st.checkbox(
-        "Puede jugar defensa"
+        "Puede jugar defensa",
+        key="can_defend"
     )
 
     defense_quality = st.slider(
         "Capacidad defensiva",
         1,
         5,
-        3
+        3,
+        key="defense_quality"
     )
 
     can_escape = st.checkbox(
-        "Puede escapar fácilmente de defensa"
+        "Puede escapar fácilmente de defensa",
+        key="can_escape"
     )
 
     can_block = st.checkbox(
-        "Puede bloquear rutas"
+        "Puede bloquear rutas",
+        key="can_block"
     )
 
 
@@ -586,18 +643,21 @@ with st.expander("10. Programación", expanded=False):
             "Odometry",
             "Dashboard",
             "Otro"
-        ]
+        ],
+        key="programming"
     )
 
     autonomous_programs = st.number_input(
         "Número de autónomos programados",
         min_value=0,
         max_value=10,
-        value=0
+        value=0,
+        key="autonomous_programs"
     )
 
     adjustable = st.checkbox(
-        "Puede modificar parámetros rápidamente"
+        "Puede modificar parámetros rápidamente",
+        key="adjustable"
     )
 
 
@@ -611,35 +671,40 @@ with st.expander("11. Confiabilidad", expanded=False):
         "Drivetrain",
         1,
         5,
-        3
+        3,
+        key="drivetrain_reliability"
     )
 
     intake_reliability = st.slider(
         "Intake",
         1,
         5,
-        3
+        3,
+        key="intake_reliability"
     )
 
     scoring_reliability = st.slider(
         "Scoring",
         1,
         5,
-        3
+        3,
+        key="scoring_reliability"
     )
 
     auto_reliability = st.slider(
         "AUTO",
         1,
         5,
-        3
+        3,
+        key="auto_reliability"
     )
 
     endgame_reliability = st.slider(
         "End Game",
         1,
         5,
-        3
+        3,
+        key="endgame_reliability"
     )
 
     known_problems = st.multiselect(
@@ -653,7 +718,8 @@ with st.expander("11. Confiabilidad", expanded=False):
             "Sensores",
             "Software",
             "Ninguno"
-        ]
+        ],
+        key="known_problems"
     )
 
 
@@ -670,7 +736,8 @@ with st.expander("12. Estrategia", expanded=False):
             "Cell",
             "Flowers",
             "Garden"
-        ]
+        ],
+        key="primary_scoring"
     )
 
     secondary_scoring = st.multiselect(
@@ -681,7 +748,8 @@ with st.expander("12. Estrategia", expanded=False):
             "Flowers",
             "Garden",
             "End Game"
-        ]
+        ],
+        key="secondary_scoring"
     )
 
     strategy_style = st.multiselect(
@@ -693,7 +761,8 @@ with st.expander("12. Estrategia", expanded=False):
             "Defensa",
             "Contra-defensa",
             "End Game"
-        ]
+        ],
+        key="strategy_style"
     )
 
     alliance_value = st.multiselect(
@@ -705,7 +774,8 @@ with st.expander("12. Estrategia", expanded=False):
             "Contra-defensa",
             "End Game",
             "Consistencia"
-        ]
+        ],
+        key="alliance_value"
     )
 
 
@@ -719,49 +789,56 @@ with st.expander("13. Evaluación general", expanded=False):
         "Velocidad general",
         1,
         5,
-        3
+        3,
+        key="overall_speed"
     )
 
     overall_scoring = st.slider(
         "Scoring general",
         1,
         5,
-        3
+        3,
+        key="overall_scoring"
     )
 
     overall_auto = st.slider(
         "AUTO general",
         1,
         5,
-        3
+        3,
+        key="overall_auto"
     )
 
     overall_endgame = st.slider(
         "End Game general",
         1,
         5,
-        3
+        3,
+        key="overall_endgame"
     )
 
     overall_defense = st.slider(
         "Defensa general",
         1,
         5,
-        3
+        3,
+        key="overall_defense"
     )
 
     overall_reliability = st.slider(
         "Confiabilidad general",
         1,
         5,
-        3
+        3,
+        key="overall_reliability"
     )
 
     overall_consistency = st.slider(
         "Consistencia general",
         1,
         5,
-        3
+        3,
+        key="overall_consistency"
     )
 
 
@@ -773,7 +850,8 @@ with st.expander("14. Comentarios", expanded=True):
 
     comments = st.text_area(
         "Observaciones",
-        placeholder="Escribe cualquier información importante..."
+        placeholder="Escribe cualquier información importante...",
+        key="comments"
     )
 
 
@@ -795,7 +873,8 @@ photo_method = st.radio(
         "Adjuntar foto",
         "Tomar foto"
     ],
-    horizontal=True
+    horizontal=True,
+    key="photo_method"
 )
 
 robot_photo = None
@@ -808,13 +887,15 @@ if photo_method == "Adjuntar foto":
             "jpg",
             "jpeg",
             "png"
-        ]
+        ],
+        key="robot_photo_upload"
     )
 
 elif photo_method == "Tomar foto":
 
     robot_photo = st.camera_input(
-        "Tomar foto del robot"
+        "Tomar foto del robot",
+        key="robot_camera"
     )
 
 
@@ -827,7 +908,8 @@ st.markdown("---")
 if st.button(
     "GUARDAR PIT SCOUTING",
     type="primary",
-    use_container_width=True
+    use_container_width=True,
+    key="save_pit_scouting"
 ):
 
     if team_number <= 0:
