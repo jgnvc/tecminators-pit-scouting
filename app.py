@@ -26,6 +26,7 @@ SCOPES = [
 
 @st.cache_resource
 def conectar_google_sheets():
+
     credentials = Credentials.from_service_account_info(
         dict(st.secrets["gcp_service_account"]),
         scopes=SCOPES
@@ -118,7 +119,7 @@ scouter = st.text_input(
 
 
 # =========================================================
-# DRIVETRAIN
+# 1. DRIVETRAIN
 # =========================================================
 
 with st.expander("1. Drivetrain", expanded=False):
@@ -202,7 +203,7 @@ with st.expander("1. Drivetrain", expanded=False):
 
 
 # =========================================================
-# AUTO
+# 2. AUTO
 # =========================================================
 
 with st.expander("2. AUTO", expanded=False):
@@ -274,7 +275,7 @@ with st.expander("2. AUTO", expanded=False):
 
 
 # =========================================================
-# SCORING
+# 3. SCORING
 # =========================================================
 
 with st.expander("3. Scoring", expanded=False):
@@ -335,7 +336,7 @@ with st.expander("3. Scoring", expanded=False):
 
 
 # =========================================================
-# INTAKE
+# 4. INTAKE
 # =========================================================
 
 with st.expander("4. Intake", expanded=False):
@@ -394,7 +395,7 @@ with st.expander("4. Intake", expanded=False):
 
 
 # =========================================================
-# FLOWERS / CELL / GARDEN
+# 5. ELEMENTOS DE JUEGO
 # =========================================================
 
 with st.expander("5. Elementos de juego", expanded=False):
@@ -458,7 +459,7 @@ with st.expander("5. Elementos de juego", expanded=False):
 
 
 # =========================================================
-# HIVE TIPS
+# 6. HIVE TIPS
 # =========================================================
 
 with st.expander("6. Hive Tips", expanded=False):
@@ -503,7 +504,7 @@ with st.expander("6. Hive Tips", expanded=False):
 
 
 # =========================================================
-# MECANISMOS
+# 7. MECANISMOS
 # =========================================================
 
 with st.expander("7. Mecanismos", expanded=False):
@@ -530,18 +531,26 @@ with st.expander("7. Mecanismos", expanded=False):
         key="mechanism_shooter"
     )
 
-    other = st.checkbox(
-        "Otro",
-        key="mechanism_other"
+    has_other_mechanism = st.radio(
+        "¿Tiene otro mecanismo?",
+        [
+            "No",
+            "Sí"
+        ],
+        horizontal=True,
+        key="has_other_mechanism"
     )
 
-    if other:
+    if has_other_mechanism == "Sí":
+
         other_mechanism = st.text_input(
-            "¿Qué otro mecanismo tiene?",
-            placeholder="Escribe el mecanismo",
-            key="mechanism_other_text"
+            "Nombre del otro mecanismo",
+            placeholder="Ej. Turret",
+            key="other_mechanism_text"
         )
+
     else:
+
         other_mechanism = ""
 
     sensors = st.multiselect(
@@ -562,7 +571,7 @@ with st.expander("7. Mecanismos", expanded=False):
 
 
 # =========================================================
-# END GAME
+# 8. END GAME
 # =========================================================
 
 with st.expander("8. End Game", expanded=False):
@@ -606,7 +615,7 @@ with st.expander("8. End Game", expanded=False):
 
 
 # =========================================================
-# DEFENSA
+# 9. DEFENSA
 # =========================================================
 
 with st.expander("9. Defensa", expanded=False):
@@ -636,7 +645,7 @@ with st.expander("9. Defensa", expanded=False):
 
 
 # =========================================================
-# PROGRAMACIÓN
+# 10. PROGRAMACIÓN
 # =========================================================
 
 with st.expander("10. Programación", expanded=False):
@@ -678,7 +687,7 @@ with st.expander("10. Programación", expanded=False):
 
 
 # =========================================================
-# CONFIABILIDAD
+# 11. CONFIABILIDAD
 # =========================================================
 
 with st.expander("11. Confiabilidad", expanded=False):
@@ -740,7 +749,7 @@ with st.expander("11. Confiabilidad", expanded=False):
 
 
 # =========================================================
-# ESTRATEGIA
+# 12. ESTRATEGIA
 # =========================================================
 
 with st.expander("12. Estrategia", expanded=False):
@@ -796,7 +805,7 @@ with st.expander("12. Estrategia", expanded=False):
 
 
 # =========================================================
-# EVALUACIÓN GENERAL
+# 13. EVALUACIÓN GENERAL
 # =========================================================
 
 with st.expander("13. Evaluación general", expanded=False):
@@ -859,7 +868,7 @@ with st.expander("13. Evaluación general", expanded=False):
 
 
 # =========================================================
-# COMENTARIOS
+# 14. COMENTARIOS
 # =========================================================
 
 with st.expander("14. Comentarios", expanded=True):
@@ -929,10 +938,18 @@ if st.button(
 ):
 
     if team_number <= 0:
-        st.error("Ingresa un número de equipo.")
+
+        st.error(
+            "Ingresa un número de equipo."
+        )
+
         st.stop()
 
-    # Crear lista de mecanismos
+
+    # =====================================================
+    # MECANISMOS
+    # =====================================================
+
     mechanisms_final = []
 
     if chassis:
@@ -947,17 +964,26 @@ if st.button(
     if shooter:
         mechanisms_final.append("Shooter")
 
-    if other and other_mechanism.strip():
+    if has_other_mechanism == "Sí" and other_mechanism.strip():
+
         mechanisms_final.append(
             f"Otro: {other_mechanism.strip()}"
         )
 
+
+    # =====================================================
+    # FILA PARA GOOGLE SHEETS
+    # =====================================================
+
     row = [
+
+        # Información
         team_number,
         team_name,
         robot_name,
         scouter,
 
+        # Drivetrain
         drivetrain,
         drive_motors,
         motor_type,
@@ -969,6 +995,7 @@ if st.button(
         odometry,
         defense_resistance,
 
+        # AUTO
         has_auto,
         ", ".join(auto_actions),
         auto_routes,
@@ -978,6 +1005,7 @@ if st.button(
         auto_apriltags,
         auto_odometry,
 
+        # Scoring
         ", ".join(scoring_capabilities),
         scoring_speed,
         cycle_time,
@@ -985,6 +1013,7 @@ if st.button(
         can_switch_elements,
         scoring_consistency,
 
+        # Intake
         has_intake,
         ", ".join(intake_elements),
         intake_from_floor,
@@ -993,6 +1022,7 @@ if st.button(
         intake_jams,
         intake_consistency,
 
+        # Elementos de juego
         ", ".join(cell_capabilities),
         cell_capacity,
         ", ".join(flower_capabilities),
@@ -1000,29 +1030,35 @@ if st.button(
         ", ".join(garden_capabilities),
         garden_capacity,
 
+        # Hive Tips
         hive_tips,
         hive_method,
         hive_speed,
         hive_multiple,
         hive_consistency,
 
+        # Mecanismos
         ", ".join(mechanisms_final),
         ", ".join(sensors),
 
+        # End Game
         endgame_park,
         ", ".join(endgame_mechanisms),
         endgame_time,
         endgame_consistency,
 
+        # Defensa
         can_defend,
         defense_quality,
         can_escape,
         can_block,
 
+        # Programación
         ", ".join(programming),
         autonomous_programs,
         adjustable,
 
+        # Confiabilidad
         drivetrain_reliability,
         intake_reliability,
         scoring_reliability,
@@ -1030,11 +1066,13 @@ if st.button(
         endgame_reliability,
         ", ".join(known_problems),
 
+        # Estrategia
         ", ".join(primary_scoring),
         ", ".join(secondary_scoring),
         ", ".join(strategy_style),
         ", ".join(alliance_value),
 
+        # Evaluación general
         overall_speed,
         overall_scoring,
         overall_auto,
@@ -1043,10 +1081,17 @@ if st.button(
         overall_reliability,
         overall_consistency,
 
+        # Comentarios
         comments,
 
+        # Foto
         "Sí" if robot_photo else "No"
     ]
+
+
+    # =====================================================
+    # GUARDAR EN GOOGLE SHEETS
+    # =====================================================
 
     try:
 
