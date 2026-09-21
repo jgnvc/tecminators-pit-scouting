@@ -520,13 +520,14 @@ with st.expander("7. Mecanismos", expanded=False):
         key="mechanisms"
     )
 
-    other_mechanism = ""
-
     if "Otro" in mechanisms:
         other_mechanism = st.text_input(
-            "¿Qué otro mecanismo tiene?",
+            "Escribe el otro mecanismo",
+            placeholder="Ej. Turret",
             key="other_mechanism"
         )
+    else:
+        other_mechanism = ""
 
     sensors = st.multiselect(
         "Sensores",
