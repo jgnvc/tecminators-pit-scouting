@@ -50,31 +50,26 @@ st.markdown("""
 <style>
 
 .block-container {
-    max-width: 700px;
+    max-width: 720px;
     padding-top: 2rem;
-    padding-bottom: 3rem;
-}
-
-.section {
-    background-color: #151515;
-    padding: 18px;
-    border-radius: 12px;
-    margin-top: 20px;
-    margin-bottom: 20px;
+    padding-bottom: 4rem;
 }
 
 .section-title {
     font-size: 22px;
     font-weight: 700;
-    margin-bottom: 15px;
+    margin-top: 10px;
+    margin-bottom: 8px;
 }
 
-.score-card {
-    background-color: #151515;
-    padding: 20px;
+.small-text {
+    color: #999;
+    font-size: 14px;
+}
+
+div[data-testid="stExpander"] {
     border-radius: 12px;
-    margin-top: 20px;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
 }
 
 </style>
@@ -93,16 +88,15 @@ st.caption("FTC BIOBUZZ 2026–2027")
 # INFORMACIÓN DEL EQUIPO
 # =========================================================
 
-st.markdown('<div class="section">', unsafe_allow_html=True)
-
 st.markdown(
-    '<div class="section-title">1. Información del equipo</div>',
+    '<div class="section-title">Información del equipo</div>',
     unsafe_allow_html=True
 )
 
 team_number = st.number_input(
     "Número de equipo",
     min_value=1,
+    max_value=99999,
     step=1
 )
 
@@ -114,465 +108,677 @@ robot_name = st.text_input(
     "Nombre del robot"
 )
 
-st.markdown('</div>', unsafe_allow_html=True)
+scouter = st.text_input(
+    "Scout"
+)
+
+photo = st.camera_input(
+    "Foto del robot"
+)
 
 
 # =========================================================
 # DRIVETRAIN
 # =========================================================
 
-st.markdown('<div class="section">', unsafe_allow_html=True)
+with st.expander("1. Drivetrain", expanded=False):
 
-st.markdown(
-    '<div class="section-title">2. Drivetrain</div>',
-    unsafe_allow_html=True
-)
+    drivetrain = st.selectbox(
+        "Tipo de drivetrain",
+        [
+            "Mecanum",
+            "Tank",
+            "X-Drive",
+            "Otro"
+        ]
+    )
 
-drivetrain = st.selectbox(
-    "Tipo de drivetrain",
-    [
-        "Mecanum",
-        "Tank",
-        "X-Drive",
-        "Otro"
-    ]
-)
+    drive_motors = st.number_input(
+        "Número de motores",
+        min_value=0,
+        max_value=8,
+        value=4
+    )
 
-drive_motors = st.number_input(
-    "Número de motores",
-    min_value=0,
-    max_value=8,
-    value=4,
-    step=1
-)
+    motor_type = st.selectbox(
+        "Tipo de motor",
+        [
+            "REV HD Hex",
+            "REV Core Hex",
+            "Otro",
+            "No sé"
+        ]
+    )
 
-drive_speed = st.slider(
-    "Velocidad",
-    min_value=1,
-    max_value=5,
-    value=3
-)
+    drive_speed = st.slider(
+        "Velocidad",
+        1,
+        5,
+        3
+    )
 
-st.markdown('</div>', unsafe_allow_html=True)
+    acceleration = st.slider(
+        "Aceleración",
+        1,
+        5,
+        3
+    )
+
+    maneuverability = st.slider(
+        "Maniobrabilidad",
+        1,
+        5,
+        3
+    )
+
+    lateral_movement = st.checkbox(
+        "Movimiento lateral"
+    )
+
+    rotation = st.checkbox(
+        "Puede girar sobre su propio eje"
+    )
+
+    odometry = st.checkbox(
+        "Usa odometría"
+    )
+
+    defense_resistance = st.slider(
+        "Resistencia ante defensa",
+        1,
+        5,
+        3
+    )
 
 
 # =========================================================
 # AUTO
 # =========================================================
 
-st.markdown('<div class="section">', unsafe_allow_html=True)
+with st.expander("2. AUTO", expanded=False):
 
-st.markdown(
-    '<div class="section-title">3. AUTO</div>',
-    unsafe_allow_html=True
-)
+    has_auto = st.checkbox(
+        "Tiene autónomo"
+    )
 
-has_auto = st.checkbox(
-    "Tiene autónomo"
-)
+    auto_actions = st.multiselect(
+        "Acciones de AUTO",
+        [
+            "Salir de la zona",
+            "Hive Tips",
+            "Pollen en Cell",
+            "Nectar en Cell",
+            "Pollen en Flowers",
+            "Nectar en Flowers",
+            "Bottom Nectar Bonus",
+            "Pollen en Garden",
+            "Nectar en Garden",
+            "Park"
+        ]
+    )
 
-auto_scoring = st.checkbox(
-    "Realiza scoring durante AUTO"
-)
+    auto_routes = st.number_input(
+        "Número de rutas de AUTO",
+        min_value=0,
+        max_value=10,
+        value=0
+    )
 
-auto_park = st.checkbox(
-    "Puede hacer Park durante AUTO"
-)
+    auto_time = st.selectbox(
+        "Tiempo aproximado de AUTO",
+        [
+            "No sé",
+            "0–5 s",
+            "5–10 s",
+            "10–15 s",
+            "15+ s"
+        ]
+    )
 
-auto_consistency = st.slider(
-    "Consistencia del autónomo",
-    min_value=1,
-    max_value=5,
-    value=3
-)
+    auto_consistency = st.slider(
+        "Consistencia del AUTO",
+        1,
+        5,
+        3
+    )
 
-auto_actions = st.multiselect(
-    "¿Qué realiza durante AUTO?",
-    [
-        "Sale de la zona",
-        "Hive Tips",
-        "Pollen en Cell",
-        "Nectar en Cell",
-        "Pollen en Flowers",
-        "Nectar en Flowers",
-        "Bottom Nectar Bonus",
-        "Pollen en Garden",
-        "Nectar en Garden",
-        "Park"
-    ]
-)
+    auto_vision = st.checkbox(
+        "Usa visión en AUTO"
+    )
 
-st.markdown('</div>', unsafe_allow_html=True)
+    auto_apriltags = st.checkbox(
+        "Usa AprilTags en AUTO"
+    )
+
+    auto_odometry = st.checkbox(
+        "Usa odometría en AUTO"
+    )
 
 
 # =========================================================
-# TELEOP / SCORING
+# SCORING
 # =========================================================
 
-st.markdown('<div class="section">', unsafe_allow_html=True)
+with st.expander("3. Scoring", expanded=False):
 
-st.markdown(
-    '<div class="section-title">4. TELEOP / SCORING</div>',
-    unsafe_allow_html=True
-)
+    scoring_capabilities = st.multiselect(
+        "¿Qué puede hacer?",
+        [
+            "Hive Tips",
+            "Pollen en Cell",
+            "Nectar en Cell",
+            "Pollen en Flowers",
+            "Nectar en Flowers",
+            "Bottom Nectar Bonus",
+            "Pollen en Garden",
+            "Nectar en Garden"
+        ]
+    )
 
-teleop_hive_tips = st.checkbox(
-    "Puede hacer Hive Tips"
-)
+    scoring_speed = st.slider(
+        "Velocidad de scoring",
+        1,
+        5,
+        3
+    )
 
-teleop_cell_pollen = st.checkbox(
-    "Puede colocar Pollen en Cell"
-)
+    cycle_time = st.selectbox(
+        "Tiempo aproximado por ciclo",
+        [
+            "No sé",
+            "< 2 s",
+            "2–3 s",
+            "3–4 s",
+            "4–5 s",
+            "5+ s"
+        ]
+    )
 
-teleop_cell_nectar = st.checkbox(
-    "Puede colocar Nectar en Cell"
-)
+    can_score_moving = st.checkbox(
+        "Puede hacer scoring mientras se mueve"
+    )
 
-teleop_flower_pollen = st.checkbox(
-    "Puede colocar Pollen en Flowers"
-)
+    can_switch_elements = st.checkbox(
+        "Puede cambiar rápidamente entre elementos"
+    )
 
-teleop_flower_nectar = st.checkbox(
-    "Puede colocar Nectar en Flowers"
-)
+    scoring_consistency = st.slider(
+        "Consistencia del scoring",
+        1,
+        5,
+        3
+    )
 
-bottom_nectar_bonus = st.checkbox(
-    "Puede hacer Bottom Nectar Bonus"
-)
 
-garden_pollen = st.checkbox(
-    "Puede colocar Pollen en Garden"
-)
+# =========================================================
+# INTAKE
+# =========================================================
 
-garden_nectar = st.checkbox(
-    "Puede colocar Nectar en Garden"
-)
+with st.expander("4. Intake", expanded=False):
 
-scoring_speed = st.slider(
-    "Velocidad de scoring",
-    min_value=1,
-    max_value=5,
-    value=3
-)
+    has_intake = st.checkbox(
+        "Tiene intake"
+    )
 
-st.markdown('</div>', unsafe_allow_html=True)
+    intake_elements = st.multiselect(
+        "Elementos que puede recoger",
+        [
+            "Pollen",
+            "Nectar",
+            "Ambos"
+        ]
+    )
+
+    intake_from_floor = st.checkbox(
+        "Puede recoger desde el suelo"
+    )
+
+    intake_while_moving = st.checkbox(
+        "Puede recoger mientras se mueve"
+    )
+
+    intake_speed = st.slider(
+        "Velocidad del intake",
+        1,
+        5,
+        3
+    )
+
+    intake_jams = st.selectbox(
+        "¿Qué tan frecuente se atasca?",
+        [
+            "Nunca observado",
+            "Raramente",
+            "A veces",
+            "Frecuentemente"
+        ]
+    )
+
+    intake_consistency = st.slider(
+        "Consistencia del intake",
+        1,
+        5,
+        3
+    )
+
+
+# =========================================================
+# FLOWERS / CELL / GARDEN
+# =========================================================
+
+with st.expander("5. Elementos de juego", expanded=False):
+
+    st.markdown("### Cell")
+
+    cell_capabilities = st.multiselect(
+        "Capacidades en Cell",
+        [
+            "Pollen",
+            "Nectar",
+            "Ambos"
+        ]
+    )
+
+    cell_capacity = st.number_input(
+        "Capacidad aproximada en Cell",
+        min_value=0,
+        max_value=20,
+        value=1
+    )
+
+    st.markdown("### Flowers")
+
+    flower_capabilities = st.multiselect(
+        "Capacidades en Flowers",
+        [
+            "Pollen",
+            "Nectar",
+            "Ambos"
+        ]
+    )
+
+    bottom_bonus = st.checkbox(
+        "Puede hacer Bottom Nectar Bonus"
+    )
+
+    st.markdown("### Garden")
+
+    garden_capabilities = st.multiselect(
+        "Capacidades en Garden",
+        [
+            "Pollen",
+            "Nectar",
+            "Ambos"
+        ]
+    )
+
+    garden_capacity = st.number_input(
+        "Capacidad aproximada en Garden",
+        min_value=0,
+        max_value=20,
+        value=1
+    )
+
+
+# =========================================================
+# HIVE TIPS
+# =========================================================
+
+with st.expander("6. Hive Tips", expanded=False):
+
+    hive_tips = st.checkbox(
+        "Puede hacer Hive Tips"
+    )
+
+    hive_method = st.selectbox(
+        "Método",
+        [
+            "No aplica",
+            "Mecanismo dedicado",
+            "Drivetrain",
+            "Otro",
+            "No sé"
+        ]
+    )
+
+    hive_speed = st.slider(
+        "Velocidad de Hive Tips",
+        1,
+        5,
+        3
+    )
+
+    hive_multiple = st.checkbox(
+        "Puede hacer varios Hive Tips rápidamente"
+    )
+
+    hive_consistency = st.slider(
+        "Consistencia",
+        1,
+        5,
+        3
+    )
 
 
 # =========================================================
 # MECANISMOS
 # =========================================================
 
-st.markdown('<div class="section">', unsafe_allow_html=True)
+with st.expander("7. Mecanismos", expanded=False):
 
-st.markdown(
-    '<div class="section-title">5. Mecanismos</div>',
-    unsafe_allow_html=True
-)
+    mechanisms = st.multiselect(
+        "Mecanismos observados",
+        [
+            "Intake",
+            "Feeder",
+            "Shooter",
+            "Scorer",
+            "Turret",
+            "Lift",
+            "Arm",
+            "Wrist",
+            "Claw",
+            "Extensión",
+            "Transfer",
+            "Otro"
+        ]
+    )
 
-intake = st.checkbox(
-    "Intake"
-)
-
-shooter_scorer = st.checkbox(
-    "Shooter / Scorer"
-)
-
-feeder = st.checkbox(
-    "Feeder"
-)
-
-turret = st.checkbox(
-    "Turret"
-)
-
-lift = st.checkbox(
-    "Lift"
-)
-
-mechanism_sensors = st.multiselect(
-    "Sensores",
-    [
-        "Encoder",
-        "Pinpoint",
-        "IMU",
-        "Color Sensor",
-        "Distance Sensor",
-        "Vision",
-        "AprilTag",
-        "Otro"
-    ]
-)
-
-other_mechanisms = st.multiselect(
-    "Otros mecanismos",
-    [
-        "Extensión",
-        "Articulación",
-        "Servo",
-        "Wrist",
-        "Claw",
-        "Otro"
-    ]
-)
-
-st.markdown('</div>', unsafe_allow_html=True)
+    sensors = st.multiselect(
+        "Sensores",
+        [
+            "Encoder",
+            "IMU",
+            "Pinpoint",
+            "Color Sensor",
+            "Distance Sensor",
+            "Vision",
+            "AprilTags",
+            "Limelight",
+            "Otro"
+        ]
+    )
 
 
 # =========================================================
 # END GAME
 # =========================================================
 
-st.markdown('<div class="section">', unsafe_allow_html=True)
+with st.expander("8. End Game", expanded=False):
 
-st.markdown(
-    '<div class="section-title">6. END GAME</div>',
-    unsafe_allow_html=True
-)
+    endgame_park = st.checkbox(
+        "Puede hacer Park"
+    )
 
-endgame_park = st.checkbox(
-    "Puede hacer Park durante END GAME"
-)
+    endgame_mechanisms = st.multiselect(
+        "Mecanismos de End Game",
+        [
+            "Hang",
+            "Lift",
+            "Extensión",
+            "Arm",
+            "Otro"
+        ]
+    )
 
-endgame_other = st.multiselect(
-    "Otros mecanismos de END GAME",
-    [
-        "Hang",
-        "Ascend",
-        "Lift",
-        "Extensión",
-        "Otro"
-    ]
-)
+    endgame_time = st.selectbox(
+        "Tiempo aproximado",
+        [
+            "No realiza",
+            "Más de 15 s",
+            "10–15 s",
+            "5–10 s",
+            "Menos de 5 s"
+        ]
+    )
 
-endgame_time = st.selectbox(
-    "Tiempo aproximado para END GAME",
-    [
-        "No realiza",
-        "Más de 15 s",
-        "10–15 s",
-        "5–10 s",
-        "Menos de 5 s"
-    ]
-)
-
-endgame_consistency = st.slider(
-    "Consistencia del END GAME",
-    min_value=1,
-    max_value=5,
-    value=3
-)
-
-st.markdown('</div>', unsafe_allow_html=True)
+    endgame_consistency = st.slider(
+        "Consistencia",
+        1,
+        5,
+        3
+    )
 
 
 # =========================================================
 # DEFENSA
 # =========================================================
 
-st.markdown('<div class="section">', unsafe_allow_html=True)
+with st.expander("9. Defensa", expanded=False):
 
-st.markdown(
-    '<div class="section-title">7. DEFENSA</div>',
-    unsafe_allow_html=True
-)
+    can_defend = st.checkbox(
+        "Puede jugar defensa"
+    )
 
-can_defend = st.checkbox(
-    "Puede jugar defensa"
-)
+    defense_quality = st.slider(
+        "Capacidad defensiva",
+        1,
+        5,
+        3
+    )
 
-can_resist_defense = st.checkbox(
-    "Puede resistir defensa"
-)
+    can_escape = st.checkbox(
+        "Puede escapar fácilmente de defensa"
+    )
 
-maneuverability = st.slider(
-    "Maniobrabilidad",
-    min_value=1,
-    max_value=5,
-    value=3
-)
-
-st.markdown('</div>', unsafe_allow_html=True)
+    can_block = st.checkbox(
+        "Puede bloquear rutas"
+    )
 
 
 # =========================================================
 # PROGRAMACIÓN
 # =========================================================
 
-st.markdown('<div class="section">', unsafe_allow_html=True)
+with st.expander("10. Programación", expanded=False):
 
-st.markdown(
-    '<div class="section-title">8. PROGRAMACIÓN</div>',
-    unsafe_allow_html=True
-)
+    programming = st.multiselect(
+        "Software / herramientas",
+        [
+            "Java",
+            "Blocks",
+            "OnBot Java",
+            "Pedro Pathing",
+            "Road Runner",
+            "FTCLib",
+            "Pinpoint",
+            "AprilTags",
+            "OpenCV",
+            "Limelight",
+            "PID",
+            "Feedforward",
+            "Odometry",
+            "Dashboard",
+            "Otro"
+        ]
+    )
 
-programming_language = st.multiselect(
-    "Lenguaje",
-    [
-        "Java",
-        "Blocks",
-        "OnBot Java",
-        "Otro"
-    ]
-)
+    autonomous_programs = st.number_input(
+        "Número de autónomos programados",
+        min_value=0,
+        max_value=10,
+        value=0
+    )
 
-pathing = st.checkbox(
-    "Pedro Pathing"
-)
-
-pinpoint = st.checkbox(
-    "Pinpoint"
-)
-
-vision = st.checkbox(
-    "Vision"
-)
-
-apriltags = st.checkbox(
-    "AprilTags"
-)
-
-pid = st.checkbox(
-    "PID"
-)
-
-other_software = st.multiselect(
-    "Otros sensores / software",
-    [
-        "Road Runner",
-        "FTCLib",
-        "Limelight",
-        "OpenCV",
-        "Odometry",
-        "IMU",
-        "Otro"
-    ]
-)
-
-st.markdown('</div>', unsafe_allow_html=True)
+    adjustable = st.checkbox(
+        "Puede modificar parámetros rápidamente"
+    )
 
 
 # =========================================================
 # CONFIABILIDAD
 # =========================================================
 
-st.markdown('<div class="section">', unsafe_allow_html=True)
+with st.expander("11. Confiabilidad", expanded=False):
 
-st.markdown(
-    '<div class="section-title">9. CONFIABILIDAD</div>',
-    unsafe_allow_html=True
-)
-
-drivetrain_reliability = st.slider(
-    "Drivetrain",
-    min_value=1,
-    max_value=5,
-    value=3
-)
-
-intake_reliability = st.slider(
-    "Intake",
-    min_value=1,
-    max_value=5,
-    value=3
-)
-
-scoring_reliability = st.slider(
-    "Scoring",
-    min_value=1,
-    max_value=5,
-    value=3
-)
-
-auto_reliability = st.slider(
-    "Autónomo",
-    min_value=1,
-    max_value=5,
-    value=3
-)
-
-endgame_reliability = st.slider(
-    "End Game",
-    min_value=1,
-    max_value=5,
-    value=3
-)
-
-known_problems = st.multiselect(
-    "Problemas conocidos",
-    [
+    drivetrain_reliability = st.slider(
         "Drivetrain",
+        1,
+        5,
+        3
+    )
+
+    intake_reliability = st.slider(
         "Intake",
-        "Scoring",
-        "Autónomo",
-        "End Game",
-        "Sensores",
-        "Software",
-        "Ninguno"
-    ]
-)
+        1,
+        5,
+        3
+    )
 
-st.markdown('</div>', unsafe_allow_html=True)
+    scoring_reliability = st.slider(
+        "Scoring",
+        1,
+        5,
+        3
+    )
+
+    auto_reliability = st.slider(
+        "AUTO",
+        1,
+        5,
+        3
+    )
+
+    endgame_reliability = st.slider(
+        "End Game",
+        1,
+        5,
+        3
+    )
+
+    known_problems = st.multiselect(
+        "Problemas observados",
+        [
+            "Drivetrain",
+            "Intake",
+            "Scoring",
+            "AUTO",
+            "End Game",
+            "Sensores",
+            "Software",
+            "Ninguno"
+        ]
+    )
 
 
 # =========================================================
-# ESTRATEGIA / NOTAS
+# ESTRATEGIA
 # =========================================================
 
-st.markdown('<div class="section">', unsafe_allow_html=True)
+with st.expander("12. Estrategia", expanded=False):
 
-st.markdown(
-    '<div class="section-title">10. ESTRATEGIA / NOTAS</div>',
-    unsafe_allow_html=True
-)
+    primary_scoring = st.multiselect(
+        "Scoring principal",
+        [
+            "Hive Tips",
+            "Cell",
+            "Flowers",
+            "Garden"
+        ]
+    )
 
-strengths = st.multiselect(
-    "Fortalezas",
-    [
-        "Velocidad",
-        "Scoring",
-        "Autónomo",
-        "End Game",
-        "Defensa",
-        "Maniobrabilidad",
-        "Confiabilidad",
-        "Consistencia"
-    ]
-)
+    secondary_scoring = st.multiselect(
+        "Scoring secundario",
+        [
+            "Hive Tips",
+            "Cell",
+            "Flowers",
+            "Garden",
+            "End Game"
+        ]
+    )
 
-weaknesses = st.multiselect(
-    "Debilidades",
-    [
-        "Velocidad",
-        "Scoring",
-        "Autónomo",
-        "End Game",
-        "Defensa",
-        "Maniobrabilidad",
-        "Confiabilidad",
-        "Consistencia"
-    ]
-)
+    strategy_style = st.multiselect(
+        "Estilo de juego",
+        [
+            "Alta velocidad",
+            "Alta consistencia",
+            "Scoring",
+            "Defensa",
+            "Contra-defensa",
+            "End Game"
+        ]
+    )
 
-observed_strategy = st.multiselect(
-    "Estrategia observada",
-    [
-        "Scoring rápido",
-        "Scoring consistente",
-        "Prioriza defensa",
-        "Evita defensa",
-        "Prioriza Flowers",
-        "Prioriza Cell",
-        "Prioriza Garden",
-        "Prioriza End Game"
-    ]
-)
+    alliance_value = st.multiselect(
+        "¿Qué aporta a una alianza?",
+        [
+            "Scoring",
+            "AUTO",
+            "Defensa",
+            "Contra-defensa",
+            "End Game",
+            "Consistencia"
+        ]
+    )
 
-comments = st.text_area(
-    "Comentarios",
-    placeholder="Escribe aquí cualquier observación adicional..."
-)
 
-st.markdown('</div>', unsafe_allow_html=True)
+# =========================================================
+# EVALUACIÓN GENERAL
+# =========================================================
+
+with st.expander("13. Evaluación general", expanded=False):
+
+    overall_speed = st.slider(
+        "Velocidad general",
+        1,
+        5,
+        3
+    )
+
+    overall_scoring = st.slider(
+        "Scoring general",
+        1,
+        5,
+        3
+    )
+
+    overall_auto = st.slider(
+        "AUTO general",
+        1,
+        5,
+        3
+    )
+
+    overall_endgame = st.slider(
+        "End Game general",
+        1,
+        5,
+        3
+    )
+
+    overall_defense = st.slider(
+        "Defensa general",
+        1,
+        5,
+        3
+    )
+
+    overall_reliability = st.slider(
+        "Confiabilidad general",
+        1,
+        5,
+        3
+    )
+
+    overall_consistency = st.slider(
+        "Consistencia general",
+        1,
+        5,
+        3
+    )
+
+
+# =========================================================
+# COMENTARIOS
+# =========================================================
+
+with st.expander("14. Comentarios", expanded=True):
+
+    comments = st.text_area(
+        "Observaciones",
+        placeholder="Escribe cualquier información importante..."
+    )
 
 
 # =========================================================
@@ -587,61 +793,103 @@ if st.button(
     use_container_width=True
 ):
 
-    if team_number == 0:
+    if team_number <= 0:
         st.error("Ingresa un número de equipo.")
         st.stop()
 
-    scouting_data = [
+    row = [
         team_number,
         team_name,
         robot_name,
+        scouter,
+
+        bool(photo),
+
         drivetrain,
         drive_motors,
+        motor_type,
         drive_speed,
+        acceleration,
+        maneuverability,
+        lateral_movement,
+        rotation,
+        odometry,
+        defense_resistance,
+
         has_auto,
-        auto_scoring,
-        auto_park,
-        auto_consistency,
         ", ".join(auto_actions),
-        teleop_hive_tips,
-        teleop_cell_pollen,
-        teleop_cell_nectar,
-        teleop_flower_pollen,
-        teleop_flower_nectar,
-        bottom_nectar_bonus,
-        garden_pollen,
-        garden_nectar,
+        auto_routes,
+        auto_time,
+        auto_consistency,
+        auto_vision,
+        auto_apriltags,
+        auto_odometry,
+
+        ", ".join(scoring_capabilities),
         scoring_speed,
-        intake,
-        shooter_scorer,
-        feeder,
-        turret,
-        lift,
-        ", ".join(mechanism_sensors),
-        ", ".join(other_mechanisms),
+        cycle_time,
+        can_score_moving,
+        can_switch_elements,
+        scoring_consistency,
+
+        has_intake,
+        ", ".join(intake_elements),
+        intake_from_floor,
+        intake_while_moving,
+        intake_speed,
+        intake_jams,
+        intake_consistency,
+
+        ", ".join(cell_capabilities),
+        cell_capacity,
+        ", ".join(flower_capabilities),
+        bottom_bonus,
+        ", ".join(garden_capabilities),
+        garden_capacity,
+
+        hive_tips,
+        hive_method,
+        hive_speed,
+        hive_multiple,
+        hive_consistency,
+
+        ", ".join(mechanisms),
+        ", ".join(sensors),
+
         endgame_park,
-        ", ".join(endgame_other),
+        ", ".join(endgame_mechanisms),
         endgame_time,
         endgame_consistency,
+
         can_defend,
-        can_resist_defense,
-        maneuverability,
-        ", ".join(programming_language),
-        pathing,
-        pinpoint,
-        vision,
-        apriltags,
-        pid,
-        ", ".join(other_software),
+        defense_quality,
+        can_escape,
+        can_block,
+
+        ", ".join(programming),
+        autonomous_programs,
+        adjustable,
+
         drivetrain_reliability,
         intake_reliability,
         scoring_reliability,
         auto_reliability,
         endgame_reliability,
         ", ".join(known_problems),
-        ", ".join(strengths),
-        ", ".join(weaknesses),
-        ", ".join(observed_strategy),
+
+        ", ".join(primary_scoring),
+        ", ".join(secondary_scoring),
+        ", ".join(strategy_style),
+        ", ".join(alliance_value),
+
+        overall_speed,
+        overall_scoring,
+        overall_auto,
+        overall_endgame,
+        overall_defense,
+        overall_reliability,
+        overall_consistency,
+
         comments
     ]
 
@@ -649,12 +897,12 @@ if st.button(
         worksheet = conectar_google_sheets()
 
         worksheet.append_row(
-            scouting_data,
+            row,
             value_input_option="USER_ENTERED"
         )
 
-        st.success("Pit Scouting guardado correctamente en Google Sheets.")
+        st.success("Pit Scouting guardado correctamente.")
 
     except Exception as e:
-        st.error("No se pudo guardar el Pit Scouting.")
+        st.error("No se pudo guardar el scouting.")
         st.exception(e)
