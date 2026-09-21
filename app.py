@@ -112,10 +112,6 @@ scouter = st.text_input(
     "Scout"
 )
 
-photo = st.camera_input(
-    "Foto del robot"
-)
-
 
 # =========================================================
 # DRIVETRAIN
@@ -467,22 +463,22 @@ with st.expander("6. Hive Tips", expanded=False):
 with st.expander("7. Mecanismos", expanded=False):
 
     mechanisms = st.multiselect(
-        "Mecanismos observados",
+        "Mecanismos del robot",
         [
+            "Chassis",
             "Intake",
             "Feeder",
             "Shooter",
-            "Scorer",
-            "Turret",
-            "Lift",
-            "Arm",
-            "Wrist",
-            "Claw",
-            "Extensión",
-            "Transfer",
             "Otro"
         ]
     )
+
+    other_mechanism = ""
+
+    if "Otro" in mechanisms:
+        other_mechanism = st.text_input(
+            "¿Qué otro mecanismo tiene?"
+        )
 
     sensors = st.multiselect(
         "Sensores",
@@ -782,6 +778,47 @@ with st.expander("14. Comentarios", expanded=True):
 
 
 # =========================================================
+# FOTO DEL ROBOT
+# =========================================================
+
+st.markdown("---")
+
+st.markdown(
+    '<div class="section-title">Foto del Robot</div>',
+    unsafe_allow_html=True
+)
+
+photo_method = st.radio(
+    "¿Cómo quieres agregar la foto?",
+    [
+        "No agregar foto",
+        "Adjuntar foto",
+        "Tomar foto"
+    ],
+    horizontal=True
+)
+
+robot_photo = None
+
+if photo_method == "Adjuntar foto":
+
+    robot_photo = st.file_uploader(
+        "Adjuntar foto del robot",
+        type=[
+            "jpg",
+            "jpeg",
+            "png"
+        ]
+    )
+
+elif photo_method == "Tomar foto":
+
+    robot_photo = st.camera_input(
+        "Tomar foto del robot"
+    )
+
+
+# =========================================================
 # GUARDAR
 # =========================================================
 
@@ -797,13 +834,21 @@ if st.button(
         st.error("Ingresa un número de equipo.")
         st.stop()
 
+    mechanisms_final = list(mechanisms)
+
+    if "Otro" in mechanisms_final:
+        mechanisms_final.remove("Otro")
+
+        if other_mechanism.strip():
+            mechanisms_final.append(
+                f"Otro: {other_mechanism.strip()}"
+            )
+
     row = [
         team_number,
         team_name,
         robot_name,
         scouter,
-
-        bool(photo),
 
         drivetrain,
         drive_motors,
@@ -853,7 +898,7 @@ if st.button(
         hive_multiple,
         hive_consistency,
 
-        ", ".join(mechanisms),
+        ", ".join(mechanisms_final),
         ", ".join(sensors),
 
         endgame_park,
@@ -890,10 +935,13 @@ if st.button(
         overall_reliability,
         overall_consistency,
 
-        comments
+        comments,
+
+        "Sí" if robot_photo else "No"
     ]
 
     try:
+
         worksheet = conectar_google_sheets()
 
         worksheet.append_row(
@@ -901,8 +949,14 @@ if st.button(
             value_input_option="USER_ENTERED"
         )
 
-        st.success("Pit Scouting guardado correctamente.")
+        st.success(
+            "Pit Scouting guardado correctamente."
+        )
 
     except Exception as e:
-        st.error("No se pudo guardar el scouting.")
+
+        st.error(
+            "No se pudo guardar el scouting."
+        )
+
         st.exception(e)
