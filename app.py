@@ -34,8 +34,9 @@ def conectar_google_sheets():
 
     client = gspread.authorize(credentials)
 
+    # NUEVO GOOGLE SHEET DE PIT SCOUTING
     spreadsheet = client.open_by_key(
-        "1sGoESN2GVpw_n_Y32VvcA5ROYNCy_SCTuFZ8--ifwVw"
+        "1Vs8HdSfAp0BflojysRGq2Gxx_8y2aMUSS_MtBeH91Q4"
     )
 
     worksheet = spreadsheet.worksheet("Pit Scouting")
@@ -531,27 +532,12 @@ with st.expander("7. Mecanismos", expanded=False):
         key="mechanism_shooter"
     )
 
-    has_other_mechanism = st.radio(
-        "¿Tiene otro mecanismo?",
-        [
-            "No",
-            "Sí"
-        ],
-        horizontal=True,
-        key="has_other_mechanism"
+    # Campo siempre visible
+    other_mechanism = st.text_input(
+        "Otro mecanismo",
+        placeholder="Ej. Turret, Arm, Climber...",
+        key="other_mechanism_text"
     )
-
-    if has_other_mechanism == "Sí":
-
-        other_mechanism = st.text_input(
-            "Nombre del otro mecanismo",
-            placeholder="Ej. Turret",
-            key="other_mechanism_text"
-        )
-
-    else:
-
-        other_mechanism = ""
 
     sensors = st.multiselect(
         "Sensores",
@@ -925,7 +911,7 @@ elif photo_method == "Tomar foto":
 
 
 # =========================================================
-# GUARDAR
+# BOTÓN GUARDAR
 # =========================================================
 
 st.markdown("---")
@@ -937,17 +923,8 @@ if st.button(
     key="save_pit_scouting"
 ):
 
-    if team_number <= 0:
-
-        st.error(
-            "Ingresa un número de equipo."
-        )
-
-        st.stop()
-
-
     # =====================================================
-    # MECANISMOS
+    # CREAR LISTA DE MECANISMOS
     # =====================================================
 
     mechanisms_final = []
@@ -964,20 +941,19 @@ if st.button(
     if shooter:
         mechanisms_final.append("Shooter")
 
-    if has_other_mechanism == "Sí" and other_mechanism.strip():
-
+    if other_mechanism.strip():
         mechanisms_final.append(
             f"Otro: {other_mechanism.strip()}"
         )
 
 
     # =====================================================
-    # FILA PARA GOOGLE SHEETS
+    # CREAR FILA
     # =====================================================
 
     row = [
 
-        # Información
+        # Información del equipo
         team_number,
         team_name,
         robot_name,
